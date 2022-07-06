@@ -13,12 +13,24 @@ services:
     depends_on:
       - db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db/postgres-db-name
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres-db-name
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=postgresDB
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
+  dbGUI:
+    container_name: 'pgadmin'
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "yj2483@nyu.edu"
+      PGADMIN_DEFAULT_PASSWORD: "root"
+    ports:
+      - "16543:80"
+    depends_on:
+      - db
+
   db:
+    hostname: db
     image: 'postgres:13.1-alpine'
     container_name: db
     ports:
